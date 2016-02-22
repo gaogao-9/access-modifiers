@@ -1,150 +1,154 @@
 # access-modifiers [![Build Status](https://travis-ci.org/gaogao-9/access-modifiers.svg?branch=master)](https://travis-ci.org/gaogao-9/access-modifiers) [![npm version](https://badge.fury.io/js/access-modifiers.svg)](https://badge.fury.io/js/access-modifiers)
+
+日本語で読みたい方はこちら => [README_JP](https://github.com/gaogao-9/access-modifiers/blob/master/README_JP.md)
+
+## Introduction
 easy use private/protected field for ES2015 class syntax
 
-## 概要
-ES2015のclass構文はprivate/protectedに対応していないため、privateやprotectedを実現しようとした場合に、あの手この手で実現する必要があります。  
-このモジュールは、本来面倒なアクセス修飾子の実装を、楽にするためのモジュールです。
+We should have complicated implementations to achieve private/protected access modifiers for ES2015 because of it has no such features for class syntax. <br>This module reduces the complication of the implementation for access modifiers.
 
-## インストール方法
 ```
 npm install access-modifiers
 ```
-プロジェクトに応じて`--save`や`--save-dev`オプションは適宜指定してください。
 
-## :warning:注意
-このモジュールを使用するには、ES2015 Proxyが利用できる必要があります。  
-ネイティブのProxyもしくは、Polyfillの[tvcutsem/harmony-reflect](https://github.com/tvcutsem/harmony-reflect)のいずれかを用意してください。  
-  
-それと当たり前ですが、Symbolオブジェクトが実装されている必要があります。  
-Symbolについては[medikoo/es6-symbol](https://github.com/medikoo/es6-symbol)というPolyfillがあります。  
-また、class構文が実装されていることが望ましいです。これは[Babel](https://babeljs.io/)を利用するなどして解決してください。
+You can add `--save` or `--save-dev` option for your project needs.
 
-## 使用方法(Node.js)
+## :warning:Requirements
+The module requires ES2015 Proxy.<br>You should use a polyfill like [tvcutsem/harmony-reflect](https://github.com/tvcutsem/harmony-reflect) if your expecting environment is not support the native Proxy.
+
+The module also requires Symbol implementation.<br>You can use a polyfill like [medikoo/es6-symbol](https://github.com/medikoo/es6-symbol).<br>In addition, the module is well suited to class syntax. To use the class syntax, you can use [Babel](https://babeljs.io/).
+
+## Usage (Node.js)
 ### Animal.js
+
 ```js
 import AccessModifiers from "access-modifiers";
 
-// createの戻り値として、private用のオブジェクトとprotected用のオブジェクトが得られる
+// the `create` method returns the objects for private and protected modifiers
 const [_,p] = AccessModifiers.create();
 
 class Animal{
   constructor(age){
-    this[_.age]  = age;      // privateフィールドへのアクセス
-    this[p.name] = "Animal"; // protectedフィールドへのアクセス
+    this[_.age]  = age;      // access to a private field
+    this[p.name] = "Animal"; // access to a protected field
   }
-  
+
   get age(){
     return this[_.age];
   }
-  
+
   get name(){
     return this[p.name];
   }
-  
-  // publicメソッドにてフィールドの情報を元に返す
+
+  // restores the field information in a public method
   introduce(){
     return `Hello, my name is ${this.name}(age: ${this.age}).`;
   }
 }
 
-// 最後に、このクラスで使用したprivate用のオブジェクトとprotected用のオブジェクトを登録する
+// finally, registers the objects for private and protected modifiers used on the Animal class
 AccessModifiers.register([_,p], Animal);
 
 export default Animal;
 ```
 
 ### Gorilla.js
+
 ```js
 import AccessModifiers from "access-modifiers";
 import Animal from "./Animal.js";
 
-// 継承を行う場合は、createの引数に基底クラスを与える
+// you should give a base class to the `create` method for inheritance
 const [_,p] = AccessModifiers.create(Animal);
 
 class Gorilla extends Animal{
   constructor(age){
     super(age);
-    this[_.like] = "Banana";  // privateフィールドへのアクセス
-    this[p.name] = "Gorilla"; // protectedフィールドへのアクセス(Animalのフィールドを上書き)
+    this[_.like] = "Banana";  // access to a private field
+    this[p.name] = "Gorilla"; // access to a protected field (overrides the Animal's field)
   }
-  
+
   get like(){
     return this[_.like];
   }
-  
-  // publicメソッドオーバーライド(内部でprotectedフィールドを介して自身の名前が書き換わる)
+
+  // overrides a public method (rewrite the protected `name` field used in the `super.introduce` method)
   introduce(){
     return `${super.introduce()} I like a ${this.like}.`;
   }
 }
 
-// 最後に、このクラスで使用したprivate用のオブジェクトとprotected用のオブジェクトを登録する
+// finally, registers the objects for private and protected modifiers used on the Gorilla class
 AccessModifiers.register([_,p], Gorilla);
 
 export default Gorilla;
 ```
 
 ### index.js
+
 ```js
-import "harmony-reflect"; // ネイティブのProxyが実装されていればこれは不要です
+import "harmony-reflect"; // you do not have to this line if the native Proxy is supported
 import Animal  from "./Animal.js";
 import Gorilla from "./Gorilla.js";
 
 const animal = new Animal(5);
 console.log(animal.introduce()); // "Hello, my name is Animal(age: 5)."
-animal.age = 10; // getterプロパティなので上書きができません
+animal.age = 10; // cannot set the value because the `age` is getter property
 console.log(animal.age); // 5
 
 const gorilla = new Gorilla(8);
 console.log(gorilla.introduce()); // "Hello, my name is Gorilla(age: 8). I like a Banana."
 
-// 強引に取り出そうと思えば取り出せるのでリフレクションも可能
+// you can forcefully get the field values for Reflection
 console.log(Object.getOwnPropertySymbols(gorilla)); // [symbol(name), symbol(age), symbol(like)]
 ```
 
-## 使用方法(Proxyが利用できるブラウザ環境)
+## Usage (Browsers supporting Proxy)
+
 ```html
 <!DOCTYPE html>
 <html lang="ja">
   <head>
-    <!-- 予めbrowser.min.jsを読み込んでおく -->
+    <!-- ensure to load browser.min.js -->
     <script src="release/access-modifiers.browser.min.js"></script>
     <script>
-      // あとは大体同じ
+      // do same way
       const[_,p] = AccessModifier.create();
-      
+
       class Animal{
-        // ここにクラス実装を書く(省略)
+        // implementation
       }
-      
+
       AccessModifier.register([_,p]);
     </script>
-    <!-- 省略 -->
+    <!-- ... -->
   </head>
   <body>
   </body>
 </html>
 ```
 
-## 使用方法(Proxyが利用出来ないブラウザ環境)
-### ※Proxyを無理矢理搭載するのは素直に諦めたほうがいい（推奨）
+## Usage (Browsers not supporting Proxy)
+### You had better not to put a dummy Proxy
+
 ```html
 <!DOCTYPE html>
 <html lang="ja">
   <head>
     <script src="release/access-modifiers.browser.min.js"></script>
     <script>
-      // createの第一引数に、配列形式で使用するprivate/protectedメンバを全て予め記述する
+      // define the name of private/protected members as Array to the 1st arg for the `create` method
       const [_,p] = AccessModifier.create([["age"],["name"]]);
-      
-      // あとは同じ
+
+      // do same way
       class Animal{
-        // ここにクラス実装を書く(省略)
+        // implementation
       }
-      
+
       AccessModifier.register([_,p]);
     </script>
-    <!-- 省略 -->
+    <!-- ... -->
   </head>
   <body>
   </body>
