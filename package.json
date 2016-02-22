@@ -1,6 +1,6 @@
 {
   "name": "access-modifiers",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "easy use private/protected field for ES2015 class syntax",
   "homepage": "https://github.com/gaogao-9/access-modifiers",
   "private": false,
@@ -20,12 +20,14 @@
     "node": ">=0.12.7",
     "npm": ">=2.0.0"
   },
+  "dependencies": {
+    "babel-polyfill": "^6.3.14",
+  },
   "devDependencies": {
     "babel": "^6.3.26",
     "babel-core": "^6.4.5",
     "babel-plugin-add-module-exports": "^0.1.2",
     "babel-plugin-transform-runtime": "^6.4.3",
-    "babel-polyfill": "^6.3.14",
     "babel-preset-es2015": "^6.3.13",
     "babelify": "^7.2.0",
     "globby": "^4.0.0",
