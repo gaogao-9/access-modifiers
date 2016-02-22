@@ -17,7 +17,7 @@ gulp.task("debug",(callback)=>{
 	// メイン記述用
 	const mainPromise = new Promise((resolve,reject)=>{
 		const babelPromise = new Promise((resolve,reject)=>{
-			gulp.src(["./src/**/!(*.browser.js)"])
+			gulp.src(["./src/**/!(access-modifiers.browser.js)"])
 				.pipe(plumber({
 					errorHandler(err){
 						notifier.notify({
@@ -36,17 +36,20 @@ gulp.task("debug",(callback)=>{
 			const bundledStream = through();
 			
 			bundledStream
-				.pipe(source("index.browser.js"))
+				.pipe(source("access-modifiers.browser.js"))
 				.pipe(buffer())
-				.pipe(gulp.dest("./debug/"));
+				.pipe(gulp.dest("./debug/"))
+				.on("end",()=>{
+					resolve();
+				});
 			
-			globby(["./src/**/*.browser.js"]).then((entries)=>{
+			globby(["./src/**/access-modifiers.browser.js"]).then((entries)=>{
 				const b = browserify({
 					entries: entries,
 					transform: [babelify]
 				});
 				
-				b.bundle().pipe(bundledStream).on("end",resolve);
+				b.bundle().pipe(bundledStream);
 			}).catch(err=>{
 				bundledStream.emit("error",err);
 			});
@@ -100,6 +103,7 @@ gulp.task("release",["debug"],(callback)=>{
 								title: err.plugin,
 								sound: "Glass"
 							});
+							reject(err);
 						},
 					}))
 				.pipe(sourcemaps.write("./"))
@@ -129,6 +133,7 @@ gulp.task("release",["debug"],(callback)=>{
 								title: err.plugin,
 								sound: "Glass"
 							});
+							reject(err);
 						},
 					}))
 				.pipe(sourcemaps.write("./"))
