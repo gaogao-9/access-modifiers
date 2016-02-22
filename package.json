@@ -1,7 +1,8 @@
 {
   "name": "access-modifiers",
   "version": "0.0.1",
-  "description": "",
+  "description": "easy use private/protected field for ES2015 class syntax",
+  "homepage": "https://github.com/gaogao-9/access-modifiers",
   "private": false,
   "main": "release/index.min.js",
   "scripts": {
