@@ -6,7 +6,7 @@
   "main": "release/index.min.js",
   "scripts": {
     "test": "gulp clean && gulp release && mocha -t 10000 --harmony_proxies ./test/release/test.min.js",
-    "test-debug": "gulp clean && gulp debug && mocha -t 10000 --harmony_proxies ./test/debug/test.js"
+    "test-debug": "gulp clean && gulp debug && mocha --harmony_proxies ./test/debug/test.js"
   },
   "author": "gao",
   "license": "MIT",

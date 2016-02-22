@@ -1,0 +1,3 @@
+*.bat
+debug/
+test/debug/
