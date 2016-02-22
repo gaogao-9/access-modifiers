@@ -30,7 +30,7 @@ const [_,p] = AccessModifiers.create();
 class Animal{
   constructor(age){
     this[_.age]  = age;      // privateフィールドへのアクセス
-    this[p.name] = "Animal"; // protectedフィールドへのアクセス(Animalのフィールドを上書き)
+    this[p.name] = "Animal"; // protectedフィールドへのアクセス
   }
   
   get age(){
