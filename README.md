@@ -11,9 +11,13 @@ npm install access-modifiers
 ```
 プロジェクトに応じて`--save`や`--save-dev`オプションは適宜指定してください。
 
-## 注意
+## :warning:注意
 このモジュールを使用するには、ES2015 Proxyが利用できる必要があります。  
-ネイティブのProxyもしくは、Polyfillの[tvcutsem/harmony-reflect](https://github.com/tvcutsem/harmony-reflect)のいずれかを用意してください。
+ネイティブのProxyもしくは、Polyfillの[tvcutsem/harmony-reflect](https://github.com/tvcutsem/harmony-reflect)のいずれかを用意してください。  
+  
+それと当たり前ですが、Symbolオブジェクトが実装されている必要があります。  
+Symbolについては[medikoo/es6-symbol](https://github.com/medikoo/es6-symbol)というPolyfillがあります。  
+また、class構文が実装されていることが望ましいです。これは[Babel](https://babeljs.io/)を利用するなどして解決してください。
 
 ## 使用方法(Node.js)
 ### Animal.js
