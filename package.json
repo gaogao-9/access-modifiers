@@ -21,7 +21,7 @@
     "npm": ">=2.0.0"
   },
   "dependencies": {
-    "babel-polyfill": "^6.3.14",
+    "babel-polyfill": "^6.3.14"
   },
   "devDependencies": {
     "babel": "^6.3.26",
