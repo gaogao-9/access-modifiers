@@ -111,9 +111,7 @@ console.log(Object.getOwnPropertySymbols(gorilla)); // [symbol(name), symbol(age
     <script src="release/access-modifiers.browser.min.js"></script>
     <script>
       // あとは大体同じ
-      var arr = AccessModifier.create();
-      var _ = arr[0];
-      var p = arr[1];
+      const[_,p] = AccessModifier.create();
       
       class Animal{
         // ここにクラス実装を書く(省略)
@@ -137,12 +135,9 @@ console.log(Object.getOwnPropertySymbols(gorilla)); // [symbol(name), symbol(age
     <script src="release/access-modifiers.browser.min.js"></script>
     <script>
       // createの第一引数に、配列形式で使用するprivate/protectedメンバを全て予め記述する
-      var arr = AccessModifier.create([["age"],["name"]]);
+      const [_,p] = AccessModifier.create([["age"],["name"]]);
       
       // あとは同じ
-      var _ = arr[0];
-      var p = arr[1];
-      
       class Animal{
         // ここにクラス実装を書く(省略)
       }
