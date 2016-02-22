@@ -42,7 +42,7 @@ class Animal{
   }
   
   // publicメソッドにてフィールドの情報を元に返す
-  intoroduce(){
+  introduce(){
     return `Hello, my name is ${this.name}(age: ${this.age}).`;
   }
 }
@@ -73,8 +73,8 @@ class Gorilla extends Animal{
   }
   
   // publicメソッドオーバーライド(内部でprotectedフィールドを介して自身の名前が書き換わる)
-  intoroduce(){
-    return `${super.intoroduce()} I like a ${this.like}.`;
+  introduce(){
+    return `${super.introduce()} I like a ${this.like}.`;
   }
 }
 
