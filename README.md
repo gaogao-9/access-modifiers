@@ -1,4 +1,4 @@
-# access-modifiers [![Build Status](https://travis-ci.org/gaogao-9/access-modifiers.svg?branch=master)](https://travis-ci.org/gaogao-9/access-modifiers) / [![npm version](https://badge.fury.io/js/access-modifiers.svg)](https://badge.fury.io/js/access-modifiers)
+# access-modifiers [![Build Status](https://travis-ci.org/gaogao-9/access-modifiers.svg?branch=master)](https://travis-ci.org/gaogao-9/access-modifiers) [![npm version](https://badge.fury.io/js/access-modifiers.svg)](https://badge.fury.io/js/access-modifiers)
 easy use private/protected field for ES2015 class syntax
 
 ## 概要
