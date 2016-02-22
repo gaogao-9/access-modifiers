@@ -36,6 +36,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.2",
     "harmony-reflect": "^1.4.2",
+    "mocha": "^2.4.5",
     "node-notifier": "^4.4.0",
     "rimraf": "^2.5.1",
     "should": "^8.2.1",
